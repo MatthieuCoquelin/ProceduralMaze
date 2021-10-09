@@ -10,7 +10,7 @@ public class MazeGenerator
     [Flags]
     public enum e_flags
     {
-        N = 1, S = 2, E = 4, W = 8
+        N = 1, S = 2, E = 4, W = 8, DeadEnd = 16
     };
 
     //e_flags myVar;
@@ -49,6 +49,7 @@ public class MazeGenerator
 
         //myMethod();
         carve_passage(0, 0);
+        CheckDeadEnd();
     }
 
     void writeOnFile()
@@ -89,6 +90,23 @@ public class MazeGenerator
         
     }
 
+    void CheckDeadEnd()
+    {
+        for (int x = 0; x < 10; x++)
+        {
+            for (int y = 0; y < 10; y++)
+            {
+                if ((grid[x, y].HasFlag(e_flags.W)) && (grid[x, y].HasFlag(e_flags.N)) && (grid[x, y].HasFlag(e_flags.E)) ||
+                    (grid[x, y].HasFlag(e_flags.N)) && (grid[x, y].HasFlag(e_flags.E)) && (grid[x, y].HasFlag(e_flags.S)) ||
+                    (grid[x, y].HasFlag(e_flags.E)) && (grid[x, y].HasFlag(e_flags.S)) && (grid[x, y].HasFlag(e_flags.W)) ||
+                    (grid[x, y].HasFlag(e_flags.S)) && (grid[x, y].HasFlag(e_flags.W)) && (grid[x, y].HasFlag(e_flags.N)))
+                {
+                    grid[x, y].HasFlag(e_flags.DeadEnd);
+                }
+            }
+        }
+    }
+
     void carve_passage (int cx, int cy)
     {
         int dx, dy, nx, ny;
@@ -96,7 +114,7 @@ public class MazeGenerator
         int i;
         for (i = 0; i < (4 - 1); i++)
         {
-            int r = UnityEngine.Random.Range(i, 4 - i);
+            int r = i + UnityEngine.Random.Range(0, 4 - i);
             e_flags temp = directions[i];
             directions[i] = directions[r];
             directions[r] = temp;
