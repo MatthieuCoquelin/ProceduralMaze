@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -8,6 +9,11 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject canvas;
+
+    private void Start()
+    {
+        Time.timeScale = 1.0f;
+    }
 
     // Update is called once per frame
     void Update()
@@ -34,6 +40,6 @@ public class GameManager : MonoBehaviour
 
     public void MainMenu()
     {
-        print("Pas encore implémenté...");
+        Application.LoadLevel(0);
     }
 }

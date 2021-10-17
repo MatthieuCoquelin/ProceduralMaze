@@ -10,6 +10,8 @@ public class LevelManager : MonoBehaviour
 {
     private MazeGenerator aMazeingLab;
     MazeGenerator.e_flags[,] grid;
+    private int HEIGHT;
+    private int WIDTH;
     private List<Vector3> deadEnds = new List<Vector3>();
 
     [SerializeField]
@@ -34,6 +36,9 @@ public class LevelManager : MonoBehaviour
     {
         aMazeingLab = new MazeGenerator();
         grid = aMazeingLab.GetGrid();
+        HEIGHT = aMazeingLab.GetHeight();
+        WIDTH = aMazeingLab.GetWidth();
+
         InstantiateWalls();
         InstanciateGround();
         InstantiateGameObjectInACorner();
@@ -42,9 +47,9 @@ public class LevelManager : MonoBehaviour
 
     void InstantiateWalls()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < HEIGHT; i++)
         {
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < WIDTH; j++)
             {
                 if (!grid[j, i].HasFlag(MazeGenerator.e_flags.E))
                 {
@@ -121,7 +126,8 @@ public class LevelManager : MonoBehaviour
         GameObject instance = Instantiate(Ground);
         NavMeshSurface navMeshSurfaceParent;
 
-        instance.transform.Translate(new Vector3(18f, -0.5f, 18f));
+        instance.transform.localScale = new Vector3(4 * HEIGHT, instance.transform.localScale.y, 4 * WIDTH);
+        instance.transform.Translate(new Vector3(((4*HEIGHT)/2) - 2, -0.5f, ((4*WIDTH)/2) - 2));
 
         instance.transform.parent = GOParent.transform;
         navMeshSurfaceParent = instance.GetComponentInParent<NavMeshSurface>();
@@ -132,9 +138,9 @@ public class LevelManager : MonoBehaviour
     void InstantiateGameObjectInACorner()
     {
         int i = 0;
-        for (int x = 0; x < 10; x++)
+        for (int x = 0; x < HEIGHT; x++)
         {
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < WIDTH; y++)
             {
                 if ((!grid[y, x].HasFlag(MazeGenerator.e_flags.W)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.N)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.E)) ||
                     (!grid[y, x].HasFlag(MazeGenerator.e_flags.N)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.E)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.S)) ||
@@ -155,29 +161,14 @@ public class LevelManager : MonoBehaviour
         
     }
 
-    //float GetPathRemainingDistance(NavMeshAgent navMeshAgent)
-    //{
-    //    if (navMeshAgent.pathPending || navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid || navMeshAgent.path.corners.Length == 0)
-    //        return 1.0f;
-    //    float distance = 0.0f;
-    //    for (int i = 0; i < navMeshAgent.path.corners.Length - 1; i++)
-    //    {
-    //        distance += Vector3.Distance(navMeshAgent.path.corners[i], navMeshAgent.path.corners[i + 1]);
-    //    }
-    //    return distance;
-    //}
-
     IEnumerator FindFarEnd()
     {
         float distance = 0.0f;
         float farEndDistance = 0.0f;
         Vector3 farEnd = new Vector3(0.0f, 0.0f, 0.0f);
-
-        //https://answers.unity.com/questions/732181/nav-remaining-distance-wrong.html
         
         foreach (Vector3 deadEnd in deadEnds)
         {
-            //NavMesh.CalculatePath(new Vector3(0.0f, -0.5f, 0.0f), deadEnd, myNavMeshAgent.areaMask, myNavMeshAgent.path);
             myNavMeshAgent.SetDestination(deadEnd);
             while (myNavMeshAgent.pathPending != false)
                 yield return null;

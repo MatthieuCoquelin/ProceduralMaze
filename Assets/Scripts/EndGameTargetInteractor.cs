@@ -10,7 +10,7 @@ public class EndGameTargetInteractor : MonoBehaviour
         if(other.tag == "Player")
         {
             print("Congratulation");
-            Application.LoadLevel(0);
+            Application.LoadLevel(1);
         }
     }
 }

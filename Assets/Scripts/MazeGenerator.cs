@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System;
 
-public class MazeGenerator
+public class MazeGenerator //MonoBehaviour
 {
     [Flags]
     public enum e_flags
@@ -28,7 +28,32 @@ public class MazeGenerator
     int[] DY = new int[9];
     e_flags[] OPPOSITE = new e_flags[9];
 
-    e_flags[,] grid = new e_flags[10, 10];
+    e_flags[,] grid = new e_flags[20, 20];
+    
+    private void InitializeSize()
+    {
+        string difficulty = PlayerPrefs.GetString("Difficulty", "Normal");
+        if( difficulty == "Easy")
+        {
+            WIDTH = 7;
+            HEIGHT = 7;
+        }
+        else if (difficulty == "Normal")
+        {
+            WIDTH = 10;
+            HEIGHT = 10;
+        }
+        else if (difficulty == "Difficult")
+        {
+            WIDTH = 15;
+            HEIGHT = 15;
+        }
+        else if (difficulty == "Random")
+        {
+            WIDTH = UnityEngine.Random.Range(7, 20);
+            HEIGHT = UnityEngine.Random.Range(7, 20);
+        }
+    }
 
     public MazeGenerator()
     {
@@ -48,6 +73,7 @@ public class MazeGenerator
         DY[8] = 0;
 
         //myMethod();
+        InitializeSize();
         carve_passage(0, 0);
         CheckDeadEnd();
     }
@@ -92,9 +118,9 @@ public class MazeGenerator
 
     void CheckDeadEnd()
     {
-        for (int x = 0; x < 10; x++)
+        for (int x = 0; x < HEIGHT; x++)
         {
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < WIDTH; y++)
             {
                 if ((grid[x, y].HasFlag(e_flags.W)) && (grid[x, y].HasFlag(e_flags.N)) && (grid[x, y].HasFlag(e_flags.E)) ||
                     (grid[x, y].HasFlag(e_flags.N)) && (grid[x, y].HasFlag(e_flags.E)) && (grid[x, y].HasFlag(e_flags.S)) ||
@@ -147,5 +173,15 @@ public class MazeGenerator
     public e_flags[,] GetGrid()
     {
         return grid;
+    }
+
+    public int GetHeight()
+    {
+        return HEIGHT;
+    }
+
+    public int GetWidth()
+    {
+        return WIDTH;
     }
 }
