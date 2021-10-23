@@ -61,12 +61,6 @@ public class LevelManager : MonoBehaviour
                     instance.transform.Translate(new Vector3(0.0f, 0.0f, 2.0f));
                     instance.transform.Rotate(Vector3.up, -90f);
                     instance.transform.Rotate(Vector3.up, -90f);
-
-                    //NavMeshSurface navMeshSurfaceParent;
-
-                    //instance.transform.parent = GOParent.transform;
-                    //navMeshSurfaceParent = instance.GetComponentInParent<NavMeshSurface>();
-                    //navMeshSurfaceParent.BuildNavMesh();
                 }
                 if (!grid[j, i].HasFlag(MazeGenerator.e_flags.W))
                 {
@@ -78,12 +72,6 @@ public class LevelManager : MonoBehaviour
                     instance.transform.Translate(new Vector3(0.0f, 0.0f, -2.0f));
                     instance.transform.Rotate(Vector3.up, -90f);
                     instance.transform.Rotate(Vector3.up, -90f);
-
-                    //NavMeshSurface navMeshSurfaceParent;
-
-                    //instance.transform.parent = GOParent.transform;
-                    //navMeshSurfaceParent = instance.GetComponentInParent<NavMeshSurface>();
-                    //navMeshSurfaceParent.BuildNavMesh();
                 }
                 if (!grid[j, i].HasFlag(MazeGenerator.e_flags.N))
                 {
@@ -94,12 +82,6 @@ public class LevelManager : MonoBehaviour
                     instance.transform.Translate(new Vector3(i*4, 0.0f, j*4));
                     instance.transform.Translate(new Vector3(-2.0f, 0.0f, 0.0f));
                     instance.transform.Rotate(Vector3.up, -90f);
-
-                    //NavMeshSurface navMeshSurfaceParent;
-
-                    //instance.transform.parent = GOParent.transform;
-                    //navMeshSurfaceParent = instance.GetComponentInParent<NavMeshSurface>();
-                    //navMeshSurfaceParent.BuildNavMesh();
                 }
                 if (!grid[j, i].HasFlag(MazeGenerator.e_flags.S))
                 {
@@ -110,12 +92,6 @@ public class LevelManager : MonoBehaviour
                     instance.transform.Translate(new Vector3(i*4, 0.0f, j*4));
                     instance.transform.Translate(new Vector3(2.0f, 0.0f, 0.0f));
                     instance.transform.Rotate(Vector3.up, -90f);
-
-                    //NavMeshSurface navMeshSurfaceParent;
-
-                    //instance.transform.parent = GOParent.transform;
-                    //navMeshSurfaceParent = instance.GetComponentInParent<NavMeshSurface>();
-                    //navMeshSurfaceParent.BuildNavMesh();
                 }
             }
         }
@@ -182,11 +158,5 @@ public class LevelManager : MonoBehaviour
         }
         GameObject instance = Instantiate(myGameObject);
         instance.transform.Translate(farEnd);
-    }
-
-
-    void Update()
-    {
-        
     }
 }
