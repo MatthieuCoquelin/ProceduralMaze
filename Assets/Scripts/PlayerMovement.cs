@@ -12,9 +12,17 @@ public class PlayerMovement : MonoBehaviour
     private float rotationSpeed;
     private NavMeshAgent agent;
 
+    [SerializeField]
+    private ParticleSystem leftPropultion;
+    
+    [SerializeField]
+    private ParticleSystem rightPropultion;
+
     // Start is called before the first frame update
     void Start()
     {
+        leftPropultion.gameObject.SetActive(false);
+        rightPropultion.gameObject.SetActive(false);
         positionSpeed = 2.5f;
         rotationSpeed = 50.0f;
         agent = GetComponent<NavMeshAgent>();
@@ -29,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
             agent.updatePosition = false;
             //transform.Rotate(Vector3.zero);
             //agent.velocity = Vector3.zero;
+            
         }
         else
         {
@@ -38,6 +47,9 @@ public class PlayerMovement : MonoBehaviour
                 moveDiretion = transform.TransformDirection(moveDiretion);
                 agent.velocity = moveDiretion;
                 transform.position += moveDiretion;
+
+                leftPropultion.gameObject.SetActive(true);
+                rightPropultion.gameObject.SetActive(true);
             }
             if (Input.GetKey("down"))
             {
@@ -45,11 +57,26 @@ public class PlayerMovement : MonoBehaviour
                 moveDiretion = transform.TransformDirection(moveDiretion);
                 agent.velocity = moveDiretion;
                 transform.position -= moveDiretion;
+
+                leftPropultion.gameObject.SetActive(true);
+                rightPropultion.gameObject.SetActive(true);
             }
             if (Input.GetKey("left"))
+            {
                 transform.Rotate(-Vector3.up * rotationSpeed * Time.deltaTime);
+
+                leftPropultion.gameObject.SetActive(true);
+                rightPropultion.gameObject.SetActive(true);
+            }
+                
             if (Input.GetKey("right"))
+            {
                 transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+
+                leftPropultion.gameObject.SetActive(true);
+                rightPropultion.gameObject.SetActive(true);
+            }
+                
         }
     }
 }

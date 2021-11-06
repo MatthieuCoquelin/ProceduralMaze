@@ -127,7 +127,7 @@ public class LevelManager : MonoBehaviour
                     {
                         GameObject instance = Instantiate(GameObjectInACorner);
                         instance.transform.Translate(new Vector3(x*4, -0.5f, y*4));
-                        deadEnds.Add(new Vector3(x * 4, -0.5f, y * 4));
+                        deadEnds.Add(new Vector3(x * 4, 0f, y * 4));
                         
                         i++;                    
                     }
