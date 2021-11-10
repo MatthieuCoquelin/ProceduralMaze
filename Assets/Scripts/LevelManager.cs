@@ -12,7 +12,8 @@ public class LevelManager : MonoBehaviour
     MazeGenerator.e_flags[,] grid;
     private int HEIGHT;
     private int WIDTH;
-    private List<Vector3> deadEnds = new List<Vector3>();
+    private List<Vector3> deadEndsPosition = new List<Vector3>();
+    private List<GameObject> deadEnds = new List<GameObject>();
 
     [SerializeField]
     private GameObject Wall;
@@ -29,7 +30,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private NavMeshAgent myNavMeshAgent;
 
-    public GameObject myGameObject;
+    [SerializeField]
+    private GameObject m_End;
 
     // Start is called before the first frame update
     void Start()
@@ -126,8 +128,11 @@ public class LevelManager : MonoBehaviour
                     if(x != 0 || y != 0)
                     {
                         GameObject instance = Instantiate(GameObjectInACorner);
-                        instance.transform.Translate(new Vector3(x*4, -0.5f, y*4));
-                        deadEnds.Add(new Vector3(x * 4, 0f, y * 4));
+                        Vector3 position = new Vector3(x * 4, 0.0f, y * 4);
+
+                        instance.transform.Translate(position);
+                        deadEndsPosition.Add(position);
+                        deadEnds.Add(instance);
                         
                         i++;                    
                     }
@@ -137,18 +142,26 @@ public class LevelManager : MonoBehaviour
         
     }
 
+    void DeleteGameObjectAtTheEnd(Vector3 farEnd)
+    {
+        for(int i = 0; i < deadEnds.Count; i++)
+        {
+            if (deadEnds[i].transform.position == farEnd)
+                Destroy(deadEnds[i]);
+        }
+    }
+
     IEnumerator FindFarEnd()
     {
         float distance = 0.0f;
         float farEndDistance = 0.0f;
         Vector3 farEnd = new Vector3(0.0f, 0.0f, 0.0f);
         
-        foreach (Vector3 deadEnd in deadEnds)
+        foreach (Vector3 deadEnd in deadEndsPosition)
         {
             myNavMeshAgent.SetDestination(deadEnd);
             while (myNavMeshAgent.pathPending != false)
                 yield return null;
-
             distance = myNavMeshAgent.GetPathRemainingDistance();
             if (distance > farEndDistance)
             {
@@ -156,7 +169,9 @@ public class LevelManager : MonoBehaviour
                 farEnd = deadEnd;
             }
         }
-        GameObject instance = Instantiate(myGameObject);
+        DeleteGameObjectAtTheEnd(farEnd);
+        
+        GameObject instance = Instantiate(m_End);
         instance.transform.Translate(farEnd);
     }
 }
