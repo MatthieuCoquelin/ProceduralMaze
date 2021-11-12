@@ -12,8 +12,8 @@ public class AsteroidRandomizer : MonoBehaviour
     void Start()
     {
         m_randomScale = 0.0f;
-        m_randomDirection = Vector3.zero;
         m_randomSpeed = 0.0f;
+        m_randomDirection = Vector3.zero;
 
         ScaleRandomizer();
         SpeedRandomizer();

@@ -8,24 +8,38 @@ using System.IO;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private float positionSpeed;
-    private float rotationSpeed;
-    private NavMeshAgent agent;
+    private float m_positionSpeed;
+    private float m_rotationSpeed;
+    private NavMeshAgent m_agent;
+    private float m_projectileSpeed;
+    private float m_positionSpeedBoost;
 
     [SerializeField]
-    private ParticleSystem leftPropultion;
+    private ParticleSystem m_leftPropultion;
     
     [SerializeField]
-    private ParticleSystem rightPropultion;
+    private ParticleSystem m_rightPropultion;
+
+    [SerializeField]
+    private GameObject m_projectile;
+
+    [SerializeField]
+    private Transform m_origin;
+
+    [SerializeField]
+    private GameObject m_map;
 
     // Start is called before the first frame update
     void Start()
     {
-        leftPropultion.gameObject.SetActive(false);
-        rightPropultion.gameObject.SetActive(false);
-        positionSpeed = 2.5f;
-        rotationSpeed = 50.0f;
-        agent = GetComponent<NavMeshAgent>();
+        m_leftPropultion.gameObject.SetActive(false);
+        m_rightPropultion.gameObject.SetActive(false);
+        m_positionSpeed = 2.5f;
+        m_rotationSpeed = 50.0f;
+        m_agent = GetComponent<NavMeshAgent>();
+        m_projectileSpeed = 1000.0f;
+        m_positionSpeedBoost = 1.0f;
+        m_map.SetActive(true);
     }
 
     // Update is called once per frame
@@ -33,48 +47,62 @@ public class PlayerMovement : MonoBehaviour
     {
         if(Input.anyKey == false)
         {
-            agent.updateRotation = false;
-            agent.updatePosition = false;
-            //transform.Rotate(Vector3.zero);
-            //agent.velocity = Vector3.zero;
-            
+            m_agent.updateRotation = false;
+            m_agent.updatePosition = false;
         }
         else
         {
-            if (Input.GetKey("up"))
+            if (Input.GetKeyDown(KeyCode.Tab))
+                m_map.SetActive(!m_map.activeSelf);
+
+            if(Input.GetMouseButtonDown(0))
             {
-                Vector3 moveDiretion = Vector3.forward * Time.deltaTime * positionSpeed;
+                GameObject instance = Instantiate(m_projectile, m_origin.position, Quaternion.identity);
+                instance.GetComponent<Rigidbody>().velocity = transform.TransformDirection(Vector3.forward * m_projectileSpeed * Time.deltaTime);    
+            }
+
+            if (Input.GetKey("up") || Input.GetKey(KeyCode.Z))
+            {
+                if (Input.GetKey(KeyCode.Space))
+                    m_positionSpeedBoost = 1.5f;
+                else
+                    m_positionSpeedBoost = 1.0f;
+
+                Vector3 moveDiretion = Vector3.forward * Time.deltaTime * m_positionSpeed * m_positionSpeedBoost;
                 moveDiretion = transform.TransformDirection(moveDiretion);
-                agent.velocity = moveDiretion;
+                m_agent.velocity = moveDiretion;
                 transform.position += moveDiretion;
 
-                leftPropultion.gameObject.SetActive(true);
-                rightPropultion.gameObject.SetActive(true);
+                m_leftPropultion.gameObject.SetActive(true);
+                m_rightPropultion.gameObject.SetActive(true);
             }
-            if (Input.GetKey("down"))
+
+            if (Input.GetKey("down") || Input.GetKey(KeyCode.S))
             {
-                Vector3 moveDiretion = Vector3.forward * Time.deltaTime * positionSpeed;
+                Vector3 moveDiretion = Vector3.forward * Time.deltaTime * m_positionSpeed;
                 moveDiretion = transform.TransformDirection(moveDiretion);
-                agent.velocity = moveDiretion;
+                m_agent.velocity = moveDiretion;
                 transform.position -= moveDiretion;
 
-                leftPropultion.gameObject.SetActive(true);
-                rightPropultion.gameObject.SetActive(true);
+                m_leftPropultion.gameObject.SetActive(true);
+                m_rightPropultion.gameObject.SetActive(true);
             }
-            if (Input.GetKey("left"))
-            {
-                transform.Rotate(-Vector3.up * rotationSpeed * Time.deltaTime);
 
-                leftPropultion.gameObject.SetActive(true);
-                rightPropultion.gameObject.SetActive(true);
+            if (Input.GetKey("left") || Input.GetKey(KeyCode.Q))
+            {
+                transform.Rotate(-Vector3.up * m_rotationSpeed * Time.deltaTime);
+
+                m_leftPropultion.gameObject.SetActive(true);
+                m_rightPropultion.gameObject.SetActive(true);
             }
                 
-            if (Input.GetKey("right"))
+            if (Input.GetKey("right") || Input.GetKey(KeyCode.D))
             {
-                transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+                
+                transform.Rotate(Vector3.up * m_rotationSpeed * Time.deltaTime);
 
-                leftPropultion.gameObject.SetActive(true);
-                rightPropultion.gameObject.SetActive(true);
+                m_leftPropultion.gameObject.SetActive(true);
+                m_rightPropultion.gameObject.SetActive(true);
             }
                 
         }
