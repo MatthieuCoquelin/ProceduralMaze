@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace UnityEngine.AI
 {
     [ExecuteInEditMode]
-    [AddComponentMenu("SampleScene/NavMeshModifier")]
+    [AddComponentMenu("SampleScene/NavMeshModifier", 32)]
     [HelpURL("https://github.com/Unity-Technologies/NavMeshComponents#documentation-draft")]
     public class NavMeshModifier : MonoBehaviour
     {
