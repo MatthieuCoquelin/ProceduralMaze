@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject canvas;
 
+    
+
     private void Start()
     {
         Time.timeScale = 1.0f;
@@ -18,7 +20,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && EndGameTargetInteractor.GetEndGame() == false)
         {
             Resume();
         }
@@ -35,11 +37,11 @@ public class GameManager : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("MainScene");
     }
 
     public void MainMenu()
     {
-        Application.LoadLevel(0);
+        SceneManager.LoadScene("MenuScene");
     }
 }

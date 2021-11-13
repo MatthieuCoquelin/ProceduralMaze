@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour
     private TextMeshProUGUI m_text;
 
     private static float m_timer;
-    private float m_timerCopy;
+    private static float m_timerCopy;
 
 
     // Start is called before the first frame update
@@ -43,5 +43,10 @@ public class Timer : MonoBehaviour
     public static void StopTimer()
     {
         m_timer -= 10.0f;
+    }
+
+    public static float GetTimer()
+    {
+        return m_timerCopy;
     }
 }

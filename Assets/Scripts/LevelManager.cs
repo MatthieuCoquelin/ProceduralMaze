@@ -170,8 +170,6 @@ public class LevelManager : MonoBehaviour
             }
         }
         DeleteGameObjectAtTheEnd(farEnd);
-        
-        GameObject instance = Instantiate(m_End);
-        instance.transform.Translate(farEnd);
+        m_End.transform.position = farEnd;
     }
 }

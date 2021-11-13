@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class MenuManager : MonoBehaviour
@@ -27,7 +28,7 @@ public class MenuManager : MonoBehaviour
 
     public void Play()
     {
-        Application.LoadLevel(1);
+        SceneManager.LoadScene("MainScene");
     }
 
     public void Option()
@@ -39,6 +40,7 @@ public class MenuManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+        print("The Application.Quit call is ignored in the Editor.");
     }
 
     //*****************Option*****************

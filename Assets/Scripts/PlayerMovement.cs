@@ -61,9 +61,9 @@ public class PlayerMovement : MonoBehaviour
                 instance.GetComponent<Rigidbody>().velocity = transform.TransformDirection(Vector3.forward * m_projectileSpeed * Time.deltaTime);    
             }
 
-            if (Input.GetKey("up") || Input.GetKey(KeyCode.Z))
+            if (Input.GetKey(KeyCode.Z))
             {
-                if (Input.GetKey(KeyCode.Space))
+                if (Input.GetKey(KeyCode.LeftShift))
                     m_positionSpeedBoost = 1.5f;
                 else
                     m_positionSpeedBoost = 1.0f;
@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
                 m_rightPropultion.gameObject.SetActive(true);
             }
 
-            if (Input.GetKey("down") || Input.GetKey(KeyCode.S))
+            if (Input.GetKey(KeyCode.S))
             {
                 Vector3 moveDiretion = Vector3.forward * Time.deltaTime * m_positionSpeed;
                 moveDiretion = transform.TransformDirection(moveDiretion);
@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
                 m_rightPropultion.gameObject.SetActive(true);
             }
 
-            if (Input.GetKey("left") || Input.GetKey(KeyCode.Q))
+            if (Input.GetKey(KeyCode.Q))
             {
                 transform.Rotate(-Vector3.up * m_rotationSpeed * Time.deltaTime);
 
@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
                 m_rightPropultion.gameObject.SetActive(true);
             }
                 
-            if (Input.GetKey("right") || Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.D))
             {
                 
                 transform.Rotate(Vector3.up * m_rotationSpeed * Time.deltaTime);
