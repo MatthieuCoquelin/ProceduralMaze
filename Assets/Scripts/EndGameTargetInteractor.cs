@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-[AddComponentMenu("test/EndGameTargetInteractor")]
 public class EndGameTargetInteractor : MonoBehaviour
 {
     [SerializeField]
@@ -30,16 +29,21 @@ public class EndGameTargetInteractor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //if we are at the end of the maze...
         if(other.tag == "Player")
         {
+            //...we stop the game...
             Time.timeScale = 0.0f;
 
+            //...and we block the paused menu.
             m_endGame = true;
 
+            //activation of the endGame canvas...
             m_canvas.SetActive(true);
             m_endGamePanel.SetActive(true);
             m_creditsPanel.SetActive(false);
 
+            //...withe time printed 
             m_timeText.GetComponent<TextMeshProUGUI>().text = "Time: " + string.Format("{0:00}:{1:00}", Mathf.FloorToInt(Timer.GetTimer() / 60), Mathf.FloorToInt(Timer.GetTimer() % 60));
         }
     }
@@ -48,6 +52,9 @@ public class EndGameTargetInteractor : MonoBehaviour
     {
         return m_endGame;
     }
+
+    //methods called by clicking on the different buttons:
+
 
     //*****************EndGame*****************
 

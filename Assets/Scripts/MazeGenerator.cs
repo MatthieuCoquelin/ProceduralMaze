@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System;
 
-public class MazeGenerator //MonoBehaviour
+public class MazeGenerator 
 {
     [Flags]
     public enum e_flags
@@ -13,71 +13,63 @@ public class MazeGenerator //MonoBehaviour
         N = 1, S = 2, E = 4, W = 8, DeadEnd = 16
     };
 
-    //e_flags myVar;
+    int m_WIDTH = 10, m_HEIGHT = 10;
 
-    //void myMethod()
-    //{
-    //    myVar = e_flags.E | e_flags.N;
-    //    //myVar.HasFlag()
-    //    print(myVar);
-    //}
+    int[] m_DX = new int[9];
+    int[] m_DY = new int[9];
+    e_flags[] m_OPPOSITE = new e_flags[9];
 
-    int WIDTH = 10, HEIGHT = 10;
-
-    int[] DX = new int[9];
-    int[] DY = new int[9];
-    e_flags[] OPPOSITE = new e_flags[9];
-
-    e_flags[,] grid = new e_flags[20, 20];
+    e_flags[,] m_grid = new e_flags[20, 20];
     
+    //check the dificulty's level of the maze and modifie attributes
     private void InitializeSize()
     {
         string difficulty = PlayerPrefs.GetString("Difficulty", "Normal");
         if( difficulty == "Easy")
         {
-            WIDTH = 7;
-            HEIGHT = 7;
+            m_WIDTH = 7;
+            m_HEIGHT = 7;
         }
         else if (difficulty == "Normal")
         {
-            WIDTH = 10;
-            HEIGHT = 10;
+            m_WIDTH = 10;
+            m_HEIGHT = 10;
         }
         else if (difficulty == "Difficult")
         {
-            WIDTH = 15;
-            HEIGHT = 15;
+            m_WIDTH = 15;
+            m_HEIGHT = 15;
         }
         else if (difficulty == "Random")
         {
-            WIDTH = UnityEngine.Random.Range(7, 20);
-            HEIGHT = UnityEngine.Random.Range(7, 20);
+            m_WIDTH = UnityEngine.Random.Range(7, 20);
+            m_HEIGHT = UnityEngine.Random.Range(7, 20);
         }
     }
 
     public MazeGenerator()
     {
-        OPPOSITE[1] = e_flags.S;
-        OPPOSITE[4] = e_flags.W;
-        OPPOSITE[2] = e_flags.N;
-        OPPOSITE[8] = e_flags.E;
+        m_OPPOSITE[1] = e_flags.S;
+        m_OPPOSITE[4] = e_flags.W;
+        m_OPPOSITE[2] = e_flags.N;
+        m_OPPOSITE[8] = e_flags.E;
 
-        DX[1] = 0;
-        DX[4] = 1;
-        DX[2] = 0;
-        DX[8] = -1;
+        m_DX[1] = 0;
+        m_DX[4] = 1;
+        m_DX[2] = 0;
+        m_DX[8] = -1;
 
-        DY[1] = -1;
-        DY[4] = 0;
-        DY[2] = 1;
-        DY[8] = 0;
+        m_DY[1] = -1;
+        m_DY[4] = 0;
+        m_DY[2] = 1;
+        m_DY[8] = 0;
 
-        //myMethod();
         InitializeSize();
         carve_passage(0, 0);
         CheckDeadEnd();
     }
 
+    //method test to disp the created correct(or not) maze generated
     void writeOnFile()
     {
         //Open the File
@@ -85,28 +77,25 @@ public class MazeGenerator //MonoBehaviour
 
         int x, y;
         sw.Write(" ");
-        for (x = 0; x < (WIDTH   ); x++)
+        for (x = 0; x < (m_WIDTH); x++)
         {
-            //sw.Write("_"); 
-            sw.Write((grid[x , 0].HasFlag(e_flags.N)) ? "  " : "__");
+            sw.Write((m_grid[x , 0].HasFlag(e_flags.N)) ? "  " : "__");
         }
         sw.Write("\n");
 
-        for (y = 0; y < HEIGHT; y++)
+        for (y = 0; y < m_HEIGHT; y++)
         {
-            //sw.Write("|");
-            sw.Write(grid[0, y].HasFlag(e_flags.W) ? " " : "|");
-            for (x = 0; x < WIDTH; x++)
+            sw.Write(m_grid[0, y].HasFlag(e_flags.W) ? " " : "|");
+            for (x = 0; x < m_WIDTH; x++)
             {
-                sw.Write(grid[x, y].HasFlag(e_flags.S) ? " " : "_");
-                if ((grid[x, y] & e_flags.E) != 0)
+                sw.Write(m_grid[x, y].HasFlag(e_flags.S) ? " " : "_");
+                if ((m_grid[x, y] & e_flags.E) != 0)
                 {
-                    sw.Write(((grid[x, y] | grid[x, y]).HasFlag(e_flags.S)) ? " " : "_");
+                    sw.Write(((m_grid[x, y] | m_grid[x, y]).HasFlag(e_flags.S)) ? " " : "_");
                 }
                 else
                 {
-                    //sw.Write("|");
-                    sw.Write(((grid[x, y].HasFlag(e_flags.E))) ? " " : "|");
+                    sw.Write(((m_grid[x, y].HasFlag(e_flags.E))) ? " " : "|");
                 }
             }
             sw.Write("\n");
@@ -116,23 +105,25 @@ public class MazeGenerator //MonoBehaviour
         
     }
 
+    //check the deadends
     void CheckDeadEnd()
     {
-        for (int x = 0; x < HEIGHT; x++)
+        for (int x = 0; x < m_HEIGHT; x++)
         {
-            for (int y = 0; y < WIDTH; y++)
+            for (int y = 0; y < m_WIDTH; y++)
             {
-                if ((grid[x, y].HasFlag(e_flags.W)) && (grid[x, y].HasFlag(e_flags.N)) && (grid[x, y].HasFlag(e_flags.E)) ||
-                    (grid[x, y].HasFlag(e_flags.N)) && (grid[x, y].HasFlag(e_flags.E)) && (grid[x, y].HasFlag(e_flags.S)) ||
-                    (grid[x, y].HasFlag(e_flags.E)) && (grid[x, y].HasFlag(e_flags.S)) && (grid[x, y].HasFlag(e_flags.W)) ||
-                    (grid[x, y].HasFlag(e_flags.S)) && (grid[x, y].HasFlag(e_flags.W)) && (grid[x, y].HasFlag(e_flags.N)))
+                if ((m_grid[x, y].HasFlag(e_flags.W)) && (m_grid[x, y].HasFlag(e_flags.N)) && (m_grid[x, y].HasFlag(e_flags.E)) ||
+                    (m_grid[x, y].HasFlag(e_flags.N)) && (m_grid[x, y].HasFlag(e_flags.E)) && (m_grid[x, y].HasFlag(e_flags.S)) ||
+                    (m_grid[x, y].HasFlag(e_flags.E)) && (m_grid[x, y].HasFlag(e_flags.S)) && (m_grid[x, y].HasFlag(e_flags.W)) ||
+                    (m_grid[x, y].HasFlag(e_flags.S)) && (m_grid[x, y].HasFlag(e_flags.W)) && (m_grid[x, y].HasFlag(e_flags.N)))
                 {
-                    grid[x, y].HasFlag(e_flags.DeadEnd);
+                    m_grid[x, y].HasFlag(e_flags.DeadEnd);
                 }
             }
         }
     }
 
+    //recursive method to generate the maze
     void carve_passage (int cx, int cy)
     {
         int dx, dy, nx, ny;
@@ -149,39 +140,39 @@ public class MazeGenerator //MonoBehaviour
 
         for (i = 0; i < 4; i++)
         {
-            dx = DX[(int)directions[i]];
-            dy = DY[(int)directions[i]];
+            dx = m_DX[(int)directions[i]];
+            dy = m_DY[(int)directions[i]];
            
             // check if the cell is valid
             nx = cx + dx;
             ny = cy + dy;
             // check if we are on valid grid
-            if (((nx < WIDTH) & (nx >= 0)) & ((ny < HEIGHT) & (ny >= 0)))
+            if (((nx < m_WIDTH) & (nx >= 0)) & ((ny < m_HEIGHT) & (ny >= 0)))
             {
-                if (grid[nx,ny] == 0)
+                if (m_grid[nx,ny] == 0)
                 {
-                    grid[cx, cy] = grid[cx, cy] | directions[i];
-                    grid[nx, ny] = grid[nx, ny] | OPPOSITE[(int)directions[i]];
+                    m_grid[cx, cy] = m_grid[cx, cy] | directions[i];
+                    m_grid[nx, ny] = m_grid[nx, ny] | m_OPPOSITE[(int)directions[i]];
                     carve_passage(nx, ny);
                 }
             }
 
         }
-        writeOnFile();
+        //writeOnFile();
     }
 
     public e_flags[,] GetGrid()
     {
-        return grid;
+        return m_grid;
     }
 
     public int GetHeight()
     {
-        return HEIGHT;
+        return m_HEIGHT;
     }
 
     public int GetWidth()
     {
-        return WIDTH;
+        return m_WIDTH;
     }
 }

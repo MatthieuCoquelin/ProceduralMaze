@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-
+//Extension method to find the distance between the agent and a deadend withe NavMeshAgent propertiess
 namespace ExtensionMethods
 {
     public static class ExtensionMethods

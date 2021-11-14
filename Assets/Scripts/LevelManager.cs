@@ -8,38 +8,38 @@ using ExtensionMethods;
 
 public class LevelManager : MonoBehaviour
 {
-    private MazeGenerator aMazeingLab;
-    MazeGenerator.e_flags[,] grid;
-    private int HEIGHT;
-    private int WIDTH;
-    private List<Vector3> deadEndsPosition = new List<Vector3>();
-    private List<GameObject> deadEnds = new List<GameObject>();
+    private MazeGenerator m_aMazeingLab;
+    MazeGenerator.e_flags[,] m_grid;
+    private int m_HEIGHT;
+    private int m_WIDTH;
+    private List<Vector3> m_deadEndsPosition = new List<Vector3>();
+    private List<GameObject> m_deadEnds = new List<GameObject>();
 
     [SerializeField]
-    private GameObject Wall;
+    private GameObject m_wall;
 
     [SerializeField]
-    private GameObject Ground;
+    private GameObject m_ground;
 
     [SerializeField]
-    private GameObject GOParent;
+    private GameObject m_gameObjectParent;
 
     [SerializeField]
-    private GameObject GameObjectInACorner;
+    private GameObject m_gameObjectInACorner;
 
     [SerializeField]
-    private NavMeshAgent myNavMeshAgent;
+    private NavMeshAgent m_navMeshAgent;
 
     [SerializeField]
-    private GameObject m_End;
+    private GameObject m_end;
 
     // Start is called before the first frame update
     void Start()
     {
-        aMazeingLab = new MazeGenerator();
-        grid = aMazeingLab.GetGrid();
-        HEIGHT = aMazeingLab.GetHeight();
-        WIDTH = aMazeingLab.GetWidth();
+        m_aMazeingLab = new MazeGenerator();
+        m_grid = m_aMazeingLab.GetGrid();
+        m_HEIGHT = m_aMazeingLab.GetHeight();
+        m_WIDTH = m_aMazeingLab.GetWidth();
 
         InstantiateWalls();
         InstanciateGround();
@@ -49,48 +49,47 @@ public class LevelManager : MonoBehaviour
 
     void InstantiateWalls()
     {
-        for (int i = 0; i < HEIGHT; i++)
+        for (int i = 0; i < m_HEIGHT; i++)
         {
-            for (int j = 0; j < WIDTH; j++)
+            for (int j = 0; j < m_WIDTH; j++)
             {
-                if (!grid[j, i].HasFlag(MazeGenerator.e_flags.E))
+                //Positon and rotation of the wall oriented East
+                if (!m_grid[j, i].HasFlag(MazeGenerator.e_flags.E))
                 {
-                    GameObject instance = Instantiate(Wall);
+                    GameObject instance = Instantiate(m_wall);
 
-
-                    instance.name = $"wall : {i} {j} E";
                     instance.transform.Translate(new Vector3(i*4, 0.0f, j*4));
                     instance.transform.Translate(new Vector3(0.0f, 0.0f, 2.0f));
                     instance.transform.Rotate(Vector3.up, -90f);
                     instance.transform.Rotate(Vector3.up, -90f);
                 }
-                if (!grid[j, i].HasFlag(MazeGenerator.e_flags.W))
+
+                //Positon and rotation of the wall oriented Weast
+                if (!m_grid[j, i].HasFlag(MazeGenerator.e_flags.W))
                 {
-                    GameObject instance = Instantiate(Wall);
+                    GameObject instance = Instantiate(m_wall);
 
-
-                    instance.name = $"wall : {i} {j} W";
                     instance.transform.Translate(new Vector3(i*4, 0.0f, j*4));
                     instance.transform.Translate(new Vector3(0.0f, 0.0f, -2.0f));
                     instance.transform.Rotate(Vector3.up, -90f);
                     instance.transform.Rotate(Vector3.up, -90f);
                 }
-                if (!grid[j, i].HasFlag(MazeGenerator.e_flags.N))
-                {
-                    GameObject instance = Instantiate(Wall);
-                    
 
-                    instance.name = $"wall : {i} {j} N";
+                //Positon and rotation of the wall oriented North
+                if (!m_grid[j, i].HasFlag(MazeGenerator.e_flags.N))
+                {
+                    GameObject instance = Instantiate(m_wall);
+                    
                     instance.transform.Translate(new Vector3(i*4, 0.0f, j*4));
                     instance.transform.Translate(new Vector3(-2.0f, 0.0f, 0.0f));
                     instance.transform.Rotate(Vector3.up, -90f);
                 }
-                if (!grid[j, i].HasFlag(MazeGenerator.e_flags.S))
-                {
-                    GameObject instance = Instantiate(Wall);
-                    
 
-                    instance.name = $"wall : {i} {j} S";
+                //Positon and rotation of the wall oriented South
+                if (!m_grid[j, i].HasFlag(MazeGenerator.e_flags.S))
+                {
+                    GameObject instance = Instantiate(m_wall);
+                    
                     instance.transform.Translate(new Vector3(i*4, 0.0f, j*4));
                     instance.transform.Translate(new Vector3(2.0f, 0.0f, 0.0f));
                     instance.transform.Rotate(Vector3.up, -90f);
@@ -101,38 +100,42 @@ public class LevelManager : MonoBehaviour
 
     void InstanciateGround()
     {
-        GameObject instance = Instantiate(Ground);
+        GameObject instance = Instantiate(m_ground);
         NavMeshSurface navMeshSurfaceParent;
 
-        instance.transform.localScale = new Vector3(4 * HEIGHT, instance.transform.localScale.y, 4 * WIDTH);
-        instance.transform.Translate(new Vector3(((4*HEIGHT)/2) - 2, -0.5f, ((4*WIDTH)/2) - 2));
+        //Modification of the scale and position of the wall
+        instance.transform.localScale = new Vector3(4 * m_HEIGHT, instance.transform.localScale.y, 4 * m_WIDTH);
+        instance.transform.Translate(new Vector3(((4* m_HEIGHT) /2) - 2, -0.5f, ((4* m_WIDTH) /2) - 2));
 
-        instance.transform.parent = GOParent.transform;
+        //Give child groud for GOParent gameObect in the scene
+        instance.transform.parent = m_gameObjectParent.transform;
         navMeshSurfaceParent = instance.GetComponentInParent<NavMeshSurface>();
         navMeshSurfaceParent.BuildNavMesh();
 
     }
 
+    //instantiate Asteroid in each deadend exept the player position (0, 0, 0)
     void InstantiateGameObjectInACorner()
     {
         int i = 0;
-        for (int x = 0; x < HEIGHT; x++)
+        for (int x = 0; x < m_HEIGHT; x++)
         {
-            for (int y = 0; y < WIDTH; y++)
+            for (int y = 0; y < m_WIDTH; y++)
             {
-                if ((!grid[y, x].HasFlag(MazeGenerator.e_flags.W)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.N)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.E)) ||
-                    (!grid[y, x].HasFlag(MazeGenerator.e_flags.N)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.E)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.S)) ||
-                    (!grid[y, x].HasFlag(MazeGenerator.e_flags.E)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.S)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.W)) ||
-                    (!grid[y, x].HasFlag(MazeGenerator.e_flags.S)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.W)) && (!grid[y, x].HasFlag(MazeGenerator.e_flags.N)))
+                //check each deadend orientation
+                if ((!m_grid[y, x].HasFlag(MazeGenerator.e_flags.W)) && (!m_grid[y, x].HasFlag(MazeGenerator.e_flags.N)) && (!m_grid[y, x].HasFlag(MazeGenerator.e_flags.E)) ||
+                    (!m_grid[y, x].HasFlag(MazeGenerator.e_flags.N)) && (!m_grid[y, x].HasFlag(MazeGenerator.e_flags.E)) && (!m_grid[y, x].HasFlag(MazeGenerator.e_flags.S)) ||
+                    (!m_grid[y, x].HasFlag(MazeGenerator.e_flags.E)) && (!m_grid[y, x].HasFlag(MazeGenerator.e_flags.S)) && (!m_grid[y, x].HasFlag(MazeGenerator.e_flags.W)) ||
+                    (!m_grid[y, x].HasFlag(MazeGenerator.e_flags.S)) && (!m_grid[y, x].HasFlag(MazeGenerator.e_flags.W)) && (!m_grid[y, x].HasFlag(MazeGenerator.e_flags.N)))
                 {
                     if(x != 0 || y != 0)
                     {
-                        GameObject instance = Instantiate(GameObjectInACorner);
+                        GameObject instance = Instantiate(m_gameObjectInACorner);
                         Vector3 position = new Vector3(x * 4, 0.0f, y * 4);
 
                         instance.transform.Translate(position);
-                        deadEndsPosition.Add(position);
-                        deadEnds.Add(instance);
+                        m_deadEndsPosition.Add(position);
+                        m_deadEnds.Add(instance);
                         
                         i++;                    
                     }
@@ -142,27 +145,29 @@ public class LevelManager : MonoBehaviour
         
     }
 
+    //Delete Asteroid at the farest deadend
     void DeleteGameObjectAtTheEnd(Vector3 farEnd)
     {
-        for(int i = 0; i < deadEnds.Count; i++)
+        for(int i = 0; i < m_deadEnds.Count; i++)
         {
-            if (deadEnds[i].transform.position == farEnd)
-                Destroy(deadEnds[i]);
+            if (m_deadEnds[i].transform.position == farEnd)
+                Destroy(m_deadEnds[i]);
         }
     }
 
+    //Find the farest distance of phe player by using navMeshAgent on it
     IEnumerator FindFarEnd()
     {
         float distance = 0.0f;
         float farEndDistance = 0.0f;
         Vector3 farEnd = new Vector3(0.0f, 0.0f, 0.0f);
         
-        foreach (Vector3 deadEnd in deadEndsPosition)
+        foreach (Vector3 deadEnd in m_deadEndsPosition)
         {
-            myNavMeshAgent.SetDestination(deadEnd);
-            while (myNavMeshAgent.pathPending != false)
+            m_navMeshAgent.SetDestination(deadEnd);
+            while (m_navMeshAgent.pathPending != false)
                 yield return null;
-            distance = myNavMeshAgent.GetPathRemainingDistance();
+            distance = m_navMeshAgent.GetPathRemainingDistance();
             if (distance > farEndDistance)
             {
                 farEndDistance = distance;
@@ -170,6 +175,6 @@ public class LevelManager : MonoBehaviour
             }
         }
         DeleteGameObjectAtTheEnd(farEnd);
-        m_End.transform.position = farEnd;
+        m_end.transform.position = farEnd;
     }
 }

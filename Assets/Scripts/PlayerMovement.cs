@@ -8,6 +8,12 @@ using System.IO;
 
 public class PlayerMovement : MonoBehaviour
 {
+    /*
+    ************************IMPORTANT***********************
+    *              Controls for azerty keypad              *
+    ********************************************************
+    */
+
     private float m_positionSpeed;
     private float m_rotationSpeed;
     private NavMeshAgent m_agent;
@@ -47,22 +53,27 @@ public class PlayerMovement : MonoBehaviour
     {
         if(Input.anyKey == false)
         {
+            //the player do not depend on the agent anymore
             m_agent.updateRotation = false;
             m_agent.updatePosition = false;
         }
         else
         {
+            //disp or not the minimap with tab
             if (Input.GetKeyDown(KeyCode.Tab))
                 m_map.SetActive(!m_map.activeSelf);
 
+            //shoot with mouse left click
             if(Input.GetMouseButtonDown(0))
             {
                 GameObject instance = Instantiate(m_projectile, m_origin.position, Quaternion.identity);
                 instance.GetComponent<Rigidbody>().velocity = transform.TransformDirection(Vector3.forward * m_projectileSpeed * Time.deltaTime);    
             }
 
+            //move forward with Z
             if (Input.GetKey(KeyCode.Z))
             {
+                //if move forward speed boost with left shift
                 if (Input.GetKey(KeyCode.LeftShift))
                     m_positionSpeedBoost = 1.5f;
                 else
@@ -77,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
                 m_rightPropultion.gameObject.SetActive(true);
             }
 
+            //back off with S button
             if (Input.GetKey(KeyCode.S))
             {
                 Vector3 moveDiretion = Vector3.forward * Time.deltaTime * m_positionSpeed;
@@ -87,7 +99,8 @@ public class PlayerMovement : MonoBehaviour
                 m_leftPropultion.gameObject.SetActive(true);
                 m_rightPropultion.gameObject.SetActive(true);
             }
-
+            
+            //turn left with Q button 
             if (Input.GetKey(KeyCode.Q))
             {
                 transform.Rotate(-Vector3.up * m_rotationSpeed * Time.deltaTime);
@@ -95,7 +108,8 @@ public class PlayerMovement : MonoBehaviour
                 m_leftPropultion.gameObject.SetActive(true);
                 m_rightPropultion.gameObject.SetActive(true);
             }
-                
+            
+            //turn right with D button
             if (Input.GetKey(KeyCode.D))
             {
                 

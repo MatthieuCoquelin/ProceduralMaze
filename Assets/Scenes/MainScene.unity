@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 288340336}
   - component: {fileID: 288340335}
   m_Layer: 5
-  m_Name: Resume button
+  m_Name: ResumeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -797,7 +797,7 @@ GameObject:
   - component: {fileID: 401311779}
   - component: {fileID: 401311778}
   m_Layer: 5
-  m_Name: Text (TMP) (8)
+  m_Name: RockTextureText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1073,7 +1073,7 @@ GameObject:
   - component: {fileID: 426683072}
   - component: {fileID: 426683071}
   m_Layer: 5
-  m_Name: New game button
+  m_Name: NewGameButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1205,7 +1205,7 @@ GameObject:
   - component: {fileID: 455617857}
   - component: {fileID: 455617856}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: FireExplosionVFXText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1420,7 +1420,7 @@ GameObject:
   - component: {fileID: 556805894}
   - component: {fileID: 556805893}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: 3SkyboxesText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1616,7 +1616,7 @@ GameObject:
   - component: {fileID: 671624909}
   - component: {fileID: 671624908}
   m_Layer: 5
-  m_Name: Text (TMP) (7)
+  m_Name: RainbowTextureText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3316,7 +3316,7 @@ GameObject:
   - component: {fileID: 1149887985}
   - component: {fileID: 1149887984}
   m_Layer: 5
-  m_Name: Text (TMP) (4)
+  m_Name: ShaderGraphText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3520,7 +3520,7 @@ GameObject:
   - component: {fileID: 1167741119}
   - component: {fileID: 1167741118}
   m_Layer: 5
-  m_Name: Main menu button
+  m_Name: MainMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3731,7 +3731,7 @@ GameObject:
   - component: {fileID: 1260503268}
   - component: {fileID: 1260503267}
   m_Layer: 5
-  m_Name: Text (TMP) (3)
+  m_Name: MappingSideBySideScriptText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3989,12 +3989,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c697e6e26f3de6a43ad2c1b9af671621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Wall: {fileID: 313403816004134286, guid: ff72ea006c28db6479790e017d6808da, type: 3}
-  Ground: {fileID: 1174989816078592811, guid: be49bae38825a604f8cb25b599914c24, type: 3}
-  GOParent: {fileID: 569451660}
-  GameObjectInACorner: {fileID: 6636100636774257855, guid: 6a26481c9e09b1744a7e422e7988f2f7, type: 3}
-  myNavMeshAgent: {fileID: 831740385}
-  m_End: {fileID: 135297767}
+  m_wall: {fileID: 313403816004134286, guid: ff72ea006c28db6479790e017d6808da, type: 3}
+  m_ground: {fileID: 1174989816078592811, guid: be49bae38825a604f8cb25b599914c24, type: 3}
+  m_gameObjectParent: {fileID: 569451660}
+  m_gameObjectInACorner: {fileID: 6636100636774257855, guid: 6a26481c9e09b1744a7e422e7988f2f7, type: 3}
+  m_navMeshAgent: {fileID: 831740385}
+  m_end: {fileID: 135297767}
 --- !u!4 &1315546732
 Transform:
   m_ObjectHideFlags: 0
@@ -4021,7 +4021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e1dd54fb1a9b6a4e8ff220bf3b29b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 1291674007}
+  m_pausedMenuCanvas: {fileID: 1291674007}
 --- !u!1 &1345534169
 GameObject:
   m_ObjectHideFlags: 0
@@ -4234,7 +4234,7 @@ GameObject:
   - component: {fileID: 1478619372}
   - component: {fileID: 1478619371}
   m_Layer: 5
-  m_Name: Text (TMP) (5)
+  m_Name: TextMeshProText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4370,7 +4370,7 @@ GameObject:
   - component: {fileID: 1489206957}
   - component: {fileID: 1489206956}
   m_Layer: 5
-  m_Name: Text (TMP) (9)
+  m_Name: NormalMapGeneratorText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4531,8 +4531,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0024414062, y: 0}
-  m_SizeDelta: {x: -0.0049, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -0.0000042968895, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1544873403
 MonoBehaviour:
@@ -4818,7 +4818,7 @@ GameObject:
   - component: {fileID: 1691992165}
   - component: {fileID: 1691992164}
   m_Layer: 5
-  m_Name: Text (TMP) (6)
+  m_Name: ChessboardTextureText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4863,7 +4863,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Damier Texture
+  m_text: 'ChessboardTexture
 
     <color=white>http://www.nimon.org/edu/gem/index.htm'
   m_isRightToLeft: 0
@@ -5726,7 +5726,7 @@ GameObject:
   - component: {fileID: 1849141347}
   - component: {fileID: 1849141346}
   m_Layer: 5
-  m_Name: Text (TMP) (2)
+  m_Name: LeanTweenText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

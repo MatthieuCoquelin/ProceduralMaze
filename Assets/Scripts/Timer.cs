@@ -23,6 +23,7 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if an asteroid is destroyed we stop the timer(we delay the timer and we use the timer copy for the display)
         if((int)m_timer == (int)m_timerCopy)
         {
             m_timer += Time.deltaTime;
