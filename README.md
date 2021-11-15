@@ -32,8 +32,8 @@ controls are fonctional.
 - "Escape": to "pause" the mission. You will have different choices:
     - "Resume"(or "Escape"): to continue the mission in an other maze 
 (the size will be the same)
-    -> "New game": to restart the mission 
-    -> "Main menu": to return to the menu scene
+    - "New game": to restart the mission 
+    - "Main menu": to return to the menu scene
 
 #
 ################################Conclusion###############################
@@ -46,4 +46,5 @@ the same)
 - "Credits": to have a better undersanding of what was mobilize to 
 create this mission 
 (On Unity this wil be in the following local path: "Assets/Imported")
+#
 Tank you for accepting the mission.
