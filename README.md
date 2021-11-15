@@ -15,6 +15,7 @@ According to our information, in order to save time, you have the
 possibility to shoot the asteroids presents on your way.
 Good luck for your mission.
 
+#
 #################################Controls################################
 #
 WARNING: The following controls are set up for an "azerty" keyboard!!!
