@@ -30,9 +30,9 @@ controls are fonctional.
 - "Left click"(mouse or touchpad): shoot with plasma projectiles 
 - "Tab": hide (or not) the minimap
 - "Escape": to "pause" the mission. You will have different choices:
-    - "Resume"(or "Escape"): to continue the mission in an other maze 
+    - "Resume"(or "Escape"): to continue the mission 
+    - "New game": to restart the mission in an other maze 
 (the size will be the same)
-    - "New game": to restart the mission 
     - "Main menu": to return to the menu scene
 
 #
