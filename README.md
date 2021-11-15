@@ -1,8 +1,6 @@
 # ProceduralMaze
 
 ###############################Introduction##############################
-#                                                                       #
-#########################################################################
 You are a space ship lost in the in a maze. Your mission, if you accept 
 it, is to find the exit as soon as possible. Apparently you are looking 
 for something red...
@@ -18,8 +16,6 @@ possibility to shoot the asteroids presents on your way.
 Good luck for your mission.
 
 #################################Controls################################
-#                                                                       #
-#########################################################################
 WARNING: The following controls are set up for an "azerty" keyboard!!!
 To help you to accomplish your mission we made sure that all the folling
 controls are fonctional.
@@ -37,8 +33,6 @@ controls are fonctional.
     -> "Main menu": to return to the menu scene
 
 ################################Conclusion###############################
-#                                                                       #
-#########################################################################
 At the end of the mission you will be congratulated an you will have
 differents choices:
 - "New game": to restart the mission in an other maze (the size will be
