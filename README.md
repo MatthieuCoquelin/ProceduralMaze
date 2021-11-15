@@ -16,6 +16,7 @@ possibility to shoot the asteroids presents on your way.
 Good luck for your mission.
 
 #################################Controls################################
+#
 WARNING: The following controls are set up for an "azerty" keyboard!!!
 To help you to accomplish your mission we made sure that all the folling
 controls are fonctional.
