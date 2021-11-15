@@ -1,6 +1,7 @@
 # ProceduralMaze
 
 ###############################Introduction##############################
+#
 You are a space ship lost in the in a maze. Your mission, if you accept 
 it, is to find the exit as soon as possible. Apparently you are looking 
 for something red...
@@ -34,7 +35,9 @@ controls are fonctional.
     -> "New game": to restart the mission 
     -> "Main menu": to return to the menu scene
 
+#
 ################################Conclusion###############################
+#
 At the end of the mission you will be congratulated an you will have
 differents choices:
 - "New game": to restart the mission in an other maze (the size will be
