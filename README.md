@@ -48,3 +48,5 @@ create this mission
 (On Unity this wil be in the following local path: "Assets/Imported")
 #
 Tank you for accepting the mission.
+
+-> UNITY_VERSION: 2020.3.18f1
